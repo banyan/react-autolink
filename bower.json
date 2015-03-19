@@ -12,7 +12,16 @@
     "globals"
   ],
   "ignore": [
+    "LICENSE",
+    "*.md",
+    "build",
+    "coverage",
     "**/.*",
+    "example",
+    "*.config.js",
+    "src",
+    "server.js",
+    "*.log",
     "node_modules",
     "bower_components",
     "test",
