@@ -5,7 +5,7 @@ function ReactAutolinkMixin() {
 
   return {
     autolink(str, options = {}, bufs = []) {
-      var result = regex.exec(str);
+      let result = regex.exec(str);
       if (result) {
         bufs.push(str.substr(0, result.index));
         bufs.push(<a href={result[0]} {...options}>{result[0]}</a>);

@@ -16,7 +16,7 @@ bower i react-autolink
 
 ```jsx
 let App = React.createClass({
-  getDefaultProps: function () {
+  getDefaultProps() {
     return {
       text: "foo bar baz http://yahoo.co.jp  bar",
     };
