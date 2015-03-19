@@ -18,7 +18,7 @@ let SampleComponent = React.createClass({
     return (
       <div>
         <span>{ this.autolink(this.props.text) }</span>
-        <span>{ this.autolink(this.props.text, { target: "_blank", rel: "nofollow" }) }</span>;
+        <span>{ this.autolink(this.props.text, { target: "_blank", rel: "nofollow" }) }</span>
       </div>
     );
   }
