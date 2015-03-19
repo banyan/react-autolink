@@ -38,6 +38,27 @@ let App = React.createClass({
 });
 ```
 
+## Development
+
+### Dependency
+
+```
+$ npm i
+```
+
+
+### Run
+
+```
+$ npm run server # => http://0.0.0.0:8080
+```
+
+### Test
+
+```
+$ npm run test
+```
+
 ## License
 
 MIT
