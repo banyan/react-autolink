@@ -1,0 +1,17 @@
+{
+  "name": "react-autolink",
+  "version": "0.0.1",
+  "authors": [
+    "Kohei Hasegawa <ameutau@gmail.com>"
+  ],
+  "description": "Autolink mixin for React",
+  "main": "build/react-autolink.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
