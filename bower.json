@@ -7,6 +7,10 @@
   "description": "Autolink mixin for React",
   "main": "build/react-autolink.js",
   "license": "MIT",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
   "ignore": [
     "**/.*",
     "node_modules",
