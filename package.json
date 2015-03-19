@@ -2,10 +2,10 @@
   "name": "react-autolink",
   "version": "0.0.2",
   "description": "Autolink mixin for React",
-  "main": "build/react-autolink.js",
+  "main": "dist/react-autolink.js",
   "scripts": {
     "server": "node server.js",
-    "build": "rm -rf build/react-autolink.jsx && webpack -p --config webpack.production.config.js",
+    "build": "rm -rf dist/react-autolink.jsx && webpack -p --config webpack.production.config.js",
     "test": "PHANTOMJS_BIN=./node_modules/.bin/phantomjs ./node_modules/karma/bin/karma start karma.config.js",
     "clean": "rm build/app.js"
   },
@@ -41,6 +41,6 @@
   },
   "files": [
     "package.json",
-    "build/react-autolink.js"
+    "dist/react-autolink.js"
   ]
 }

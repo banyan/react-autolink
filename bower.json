@@ -5,7 +5,7 @@
     "Kohei Hasegawa <ameutau@gmail.com>"
   ],
   "description": "Autolink mixin for React",
-  "main": "build/react-autolink.js",
+  "main": "dist/react-autolink.js",
   "license": "MIT",
   "moduleType": [
     "amd",

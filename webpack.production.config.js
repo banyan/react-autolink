@@ -9,7 +9,7 @@ module.exports = {
   output: {
     library: 'ReactAutolink',
     libraryTarget: 'umd',
-    path: __dirname + "/build/",
+    path: __dirname + "/dist/",
     filename: "react-autolink.js"
   },
 
@@ -33,4 +33,4 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx']
   }
-}
+};
