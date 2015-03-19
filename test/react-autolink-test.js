@@ -24,14 +24,6 @@ let SampleComponent = React.createClass({
   }
 });
 
-// describe('sum', function() {
- // it('adds 1 + 2 to equal 3', function() {
-   // // var sum = require('../sum');
-   // expect(1).toBe(1);
- // });
-// });
-
-
 describe("ReactAutolinkMixin", function() {
   it("should render with data props", function() {
     let sampleComponent = TestUtils.renderIntoDocument(<SampleComponent />);
