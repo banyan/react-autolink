@@ -13,10 +13,13 @@ let App = React.createClass({
     ReactAutolinkMixin
   ],
 
-    // return <div>{ this.autolink(this.props.text) }</div>;
   render() {
-console.log(ReactAutolinkMixin);
-    return <div>{ this.autolink(this.props.text, { target: "_blank", rel: "nofollow" }) }</div>;
+    return (
+      <div>
+        <span>{ this.autolink(this.props.text) }</span>
+        <span>{ this.autolink(this.props.text, { target: "_blank", rel: "nofollow" }) }</span>
+      </div>
+    );
   }
 });
 
