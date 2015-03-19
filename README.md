@@ -6,7 +6,7 @@
 
 ## Install
 
-```
+```shell
 npm i react-autolink
 # or
 bower i react-autolink
