@@ -1,20 +1,23 @@
-import React from "react";
+import React  from 'react';
+import assign from 'object-assign';
 
 function ReactAutolinkMixin() {
-  let regex = /https?:\/\/[^\s]+/;
+  let delimiter = /((?:https?:\/\/)?(?:[a-z0-9][a-z0-9\-]{1,61}[a-z0-9]\.)+[a-z\.]*[a-z]+[a-z0-9.,_\/~#&=;%+?-]*)/ig;
 
   return {
-    autolink(str, options = {}, bufs = []) {
-      let result = regex.exec(str);
-      if (result) {
-        bufs.push(str.substr(0, result.index));
-        bufs.push(<a href={result[0]} {...options}>{result[0]}</a>);
-        return this.autolink(str.substr(result.index + result[0].length), options, bufs);
-      } else {
-        bufs.push(str);
-        return bufs;
-      }
-    },
+    autolink(text, options = {}, bufs = []) {
+      if (!text) return null;
+
+      return text.split(delimiter).map(word => {
+        let match = word.match(delimiter);
+        if (match) {
+          let url = match[0];
+          return React.createElement('a', assign({href: url.startsWith('http') ? url : `http://${url}`}, options), url);
+        } else {
+          return word;
+        }
+      });
+    }
   };
 }
 
