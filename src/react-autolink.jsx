@@ -9,7 +9,7 @@ function ReactAutolinkMixin() {
   };
 
   return {
-    autolink(text, options = {}, bufs = []) {
+    autolink(text, options = {}) {
       if (!text) return null;
 
       return text.split(delimiter).map(word => {
