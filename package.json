@@ -4,10 +4,10 @@
   "description": "Autolink mixin for React",
   "main": "dist/react-autolink.js",
   "scripts": {
-    "server": "node server.js",
+    "start": "node example/server.js",
     "build": "rm -rf dist/react-autolink.jsx && webpack -p --config webpack.production.config.js",
     "test": "PHANTOMJS_BIN=./node_modules/.bin/phantomjs ./node_modules/karma/bin/karma start karma.config.js",
-    "clean": "rm build/app.js"
+    "clean": "rm example/build/app.js"
   },
   "repository": {
     "type": "git",

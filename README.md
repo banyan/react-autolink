@@ -50,7 +50,7 @@ $ npm i
 ### Run
 
 ```
-$ npm run server # => http://0.0.0.0:8080
+$ npm start # => http://0.0.0.0:8080
 ```
 
 ### Test
