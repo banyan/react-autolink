@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+if [ $# -ne 1 ]; then
+    echo "should require version: e.g. release 0.1.0"
+    exit 1
+fi
+
+rm dist/react-autolink.js
+npm run build
+npm version $1
+bower version $1
+git add .
+git commit -m "Release $1"
+git push origin master
+git push origin $1
+npm publish
