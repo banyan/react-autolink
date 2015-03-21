@@ -1,6 +1,6 @@
 {
   "name": "react-autolink",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An autolink mixin for React",
   "main": "dist/react-autolink.js",
   "scripts": {
