@@ -10,7 +10,7 @@
 ```shell
 npm i react-autolink
 # or
-bower i react-autolink
+bower i react-autolink # `window.ReactAutolink` is available
 ```
 
 ## Usage
@@ -19,12 +19,12 @@ bower i react-autolink
 let App = React.createClass({
   getDefaultProps() {
     return {
-      text: "foo bar baz http://yahoo.co.jp  bar",
+      text: "foo bar baz http://example.org bar",
     };
   },
 
   mixins: [
-    ReactAutolinkMixin
+    ReactAutolink
   ],
 
   render() {
