@@ -77,6 +77,34 @@ describe("ReactAutolinkMixin", () => {
       assert.ok(link.getDOMNode().href === 'http://example.org/');
     });
 
+    it("", () => {
+      sampleComponent.setProps({text: 'http://192.168.0.1 bar'});
+      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
+      assert.ok(link.getDOMNode().textContent === 'http://192.168.0.1');
+      assert.ok(link.getDOMNode().href === 'http://192.168.0.1/');
+    });
+
+    it("", () => {
+      sampleComponent.setProps({text: '192.168.0.1 bar'});
+      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
+      assert.ok(link.getDOMNode().textContent === '192.168.0.1');
+      assert.ok(link.getDOMNode().href === 'http://192.168.0.1/');
+    });
+
+    it("", () => {
+      sampleComponent.setProps({text: 'http://192.168.0.1:8080 bar'});
+      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
+      assert.ok(link.getDOMNode().textContent === 'http://192.168.0.1:8080');
+      assert.ok(link.getDOMNode().href === 'http://192.168.0.1:8080/');
+    });
+
+    it("", () => {
+      sampleComponent.setProps({text: '192.168.0.1:443 bar'});
+      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
+      assert.ok(link.getDOMNode().textContent === '192.168.0.1:443');
+      assert.ok(link.getDOMNode().href === 'http://192.168.0.1:443/');
+    });
+
     it("converts url if 2 urls are given", () => {
       sampleComponent.setProps({text: 'example.org bar example.com'});
       let links = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
