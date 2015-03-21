@@ -5,6 +5,12 @@ const {TestUtils} = React.addons;
 import ReactAutolinkMixin from "../src/react-autolink";
 
 let SampleComponent = React.createClass({
+  getDefaultProps() {
+    return {
+      options: {}
+    };
+  },
+
   mixins: [
     ReactAutolinkMixin
   ],
@@ -12,7 +18,7 @@ let SampleComponent = React.createClass({
   render() {
     return (
       <div>
-        <span>{ this.autolink(this.props.text) }</span>
+        <span>{ this.autolink(this.props.text, this.props.options) }</span>
       </div>
     );
   }
@@ -81,6 +87,13 @@ describe("ReactAutolinkMixin", () => {
       sampleComponent.setProps({text: 'example.org bar example.com'});
       let links = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
       assert.ok(links.length === 2);
+    });
+
+    it("has attributes when options are given", () => {
+      sampleComponent.setProps({text: 'example.org', options: { target: "_blank", rel: "nofollow" }});
+      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
+      assert.ok(link.getDOMNode().target === '_blank');
+      assert.ok(link.getDOMNode().rel === 'nofollow');
     });
   });
 });
