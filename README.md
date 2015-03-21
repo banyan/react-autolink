@@ -3,7 +3,7 @@
 [![Circle CI](https://img.shields.io/circleci/project/banyan/react-autolink.svg?style=flat-square)](https://circleci.com/gh/banyan/react-autolink)
 [![NPM](https://img.shields.io/npm/v/react-autolink.svg?style=flat-square)](https://www.npmjs.com/package/react-autolink)
 
->Autolink mixin for React
+>An autolink mixin for React
 
 ## Install
 
