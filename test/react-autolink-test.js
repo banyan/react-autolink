@@ -70,6 +70,19 @@ describe("ReactAutolinkMixin", () => {
       assert.ok(link.getDOMNode().href === 'http://example.org/sample.png');
     });
 
+    it("converts very short urls when scheme is given", () => {
+      sampleComponent.setProps({text: 'foo http://t.co/Y1cYYJlCXR bar'});
+      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
+      assert.ok(link.getDOMNode().textContent === 'http://t.co/Y1cYYJlCXR');
+      assert.ok(link.getDOMNode().href === 'http://t.co/Y1cYYJlCXR');
+    });
+
+    it("does not convert very short urls when scheme is not given", () => {
+      sampleComponent.setProps({text: 'foo t.co/Y1cYYJlCXR bar'});
+      let link = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
+      assert.ok(link.length === 0);
+    });
+
     it("converts url without scheme", () => {
       sampleComponent.setProps({text: 'example.org bar'});
       let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");

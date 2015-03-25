@@ -2,7 +2,7 @@ import React  from 'react';
 import assign from 'object-assign';
 
 function ReactAutolinkMixin() {
-  const delimiter = /((?:https?:\/\/)?(?:(?:[a-z0-9][a-z0-9\-]{1,61}[a-z0-9]\.)+[a-z\.]*[a-z]+|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3})(?::\d{1,5})*[a-z0-9.,_\/~#&=;%+?-]*)/ig;
+  const delimiter = /((?:https?:\/\/)?(?:(?:[a-z0-9](?:[a-z0-9\-]{1,61}[a-z0-9])?\.)+[a-z\.]*[a-z]+|(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3})(?::\d{1,5})*[a-z0-9.,_\/~#&=;%+?-]*)/ig;
 
   let strStartsWith = (str, prefix) => {
     return str.slice(0, prefix.length) === prefix;
@@ -16,6 +16,13 @@ function ReactAutolinkMixin() {
         let match = word.match(delimiter);
         if (match) {
           let url = match[0];
+
+          let segments = url.split('/');
+          // no scheme given, so check host portion length
+          if (segments[1] !== '' && segments[0].length < 5) {
+            return word;
+          }
+
           return React.createElement(
             'a',
             assign({href: strStartsWith(url, 'http') ? url : `http://${url}`}, options),
