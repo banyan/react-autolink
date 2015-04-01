@@ -27,7 +27,18 @@ let SampleComponent = React.createClass({
 describe("ReactAutolinkMixin", () => {
   let sampleComponent = TestUtils.renderIntoDocument(<SampleComponent />);
 
-  it("renders", () => {
+  let getLink = (text, options) => {
+    sampleComponent.setProps({text: text, options: options});
+    return TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a").getDOMNode();
+  };
+
+  let assertNoLink = (text, options) => {
+    sampleComponent.setProps({text: text, options: options});
+    let link = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
+    assert.ok(link.length === 0);
+  };
+
+  it("render", () => {
     sampleComponent.setProps({text: 'foo http://example.org'});
     let span = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "span");
     assert.equal(
@@ -37,95 +48,96 @@ describe("ReactAutolinkMixin", () => {
   });
 
   context('parsing', () => {
-      it("does not convert url with no link like string", () => {
-      sampleComponent.setProps({text: 'foo bar'});
-      let link = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
-      assert.ok(link.length === 0);
+    it("does not convert url with no link like string", () => {
+      assertNoLink('foo bar');
     });
 
     it("does not convert url with no string", () => {
-      sampleComponent.setProps({text: ''});
-      let link = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
-      assert.ok(link.length === 0);
+      assertNoLink('');
     });
 
     it("converts url with link proper url", () => {
-      sampleComponent.setProps({text: 'foo http://example.org'});
-      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
-      assert.ok(link.getDOMNode().textContent === 'http://example.org');
-      assert.ok(link.getDOMNode().href === 'http://example.org/');
+      let { textContent, href } = getLink('http://example.org');
+      assert.ok(textContent === 'http://example.org');
+      assert.ok(href === 'http://example.org/');
     });
 
     it("converts url with query string", () => {
-      sampleComponent.setProps({text: 'foo http://example.org?foo=1&bar_baz=2'});
-      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
-      assert.ok(link.getDOMNode().textContent === 'http://example.org?foo=1&bar_baz=2');
-      assert.ok(link.getDOMNode().href === 'http://example.org/?foo=1&bar_baz=2');
+      let { textContent, href } = getLink('http://example.org?foo=1&bar_baz=2');
+      assert.ok(textContent === 'http://example.org?foo=1&bar_baz=2');
+      assert.ok(href === 'http://example.org/?foo=1&bar_baz=2');
     });
 
     it("converts url with image", () => {
-      sampleComponent.setProps({text: 'foo http://example.org/sample.png'});
-      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
-      assert.ok(link.getDOMNode().textContent === 'http://example.org/sample.png');
-      assert.ok(link.getDOMNode().href === 'http://example.org/sample.png');
+      let { textContent, href } = getLink('http://example.org/sample.png');
+      assert.ok(textContent === 'http://example.org/sample.png');
+      assert.ok(href === 'http://example.org/sample.png');
     });
 
     it("converts very short urls when scheme is given", () => {
-      sampleComponent.setProps({text: 'foo http://t.co/Y1cYYJlCXR bar'});
-      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
-      assert.ok(link.getDOMNode().textContent === 'http://t.co/Y1cYYJlCXR');
-      assert.ok(link.getDOMNode().href === 'http://t.co/Y1cYYJlCXR');
+      let { textContent, href } = getLink('http://t.co/Y1cYYJlCXR');
+      assert.ok(textContent === 'http://t.co/Y1cYYJlCXR');
+      assert.ok(href === 'http://t.co/Y1cYYJlCXR');
     });
 
     it("does not convert very short urls when scheme is not given", () => {
-      sampleComponent.setProps({text: 'foo t.co/Y1cYYJlCXR bar'});
-      let link = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
-      assert.ok(link.length === 0);
+      assertNoLink('t.co/Y1cYYJlCXR');
+    });
+
+    it("does not convert if domain is invalid", () => {
+      assertNoLink('http://a..foo');
+    });
+
+    it("does not convert if domain is invalid without scheme", () => {
+      assertNoLink('a..foo');
+    });
+
+    it("converts url if sub-domain is less than 3 charcters", () => {
+      let { textContent, href } = getLink('http://en.wikipedia.org/wiki/Foobar');
+      assert.ok(textContent === 'http://en.wikipedia.org/wiki/Foobar');
+      assert.ok(href === 'http://en.wikipedia.org/wiki/Foobar');
     });
 
     it("converts url without scheme", () => {
-      sampleComponent.setProps({text: 'example.org bar'});
-      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
-      assert.ok(link.getDOMNode().textContent === 'example.org');
-      assert.ok(link.getDOMNode().href === 'http://example.org/');
+      let { textContent, href } = getLink('example.org');
+      assert.ok(textContent === 'example.org');
+      assert.ok(href === 'http://example.org/');
     });
 
-    it("", () => {
-      sampleComponent.setProps({text: 'http://192.168.0.1 bar'});
-      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
-      assert.ok(link.getDOMNode().textContent === 'http://192.168.0.1');
-      assert.ok(link.getDOMNode().href === 'http://192.168.0.1/');
+    it("converts ip address with scheme", () => {
+      let { textContent, href } = getLink('http://192.168.0.1');
+      assert.ok(textContent === 'http://192.168.0.1');
+      assert.ok(href === 'http://192.168.0.1/');
     });
 
-    it("", () => {
-      sampleComponent.setProps({text: '192.168.0.1 bar'});
-      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
-      assert.ok(link.getDOMNode().textContent === '192.168.0.1');
-      assert.ok(link.getDOMNode().href === 'http://192.168.0.1/');
+    it("converts ip address without scheme", () => {
+      let { textContent, href } = getLink('192.168.0.1');
+      assert.ok(textContent === '192.168.0.1');
+      assert.ok(href === 'http://192.168.0.1/');
     });
 
-    it("", () => {
-      sampleComponent.setProps({text: 'http://192.168.0.1:8080 bar'});
-      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
-      assert.ok(link.getDOMNode().textContent === 'http://192.168.0.1:8080');
-      assert.ok(link.getDOMNode().href === 'http://192.168.0.1:8080/');
+    it("converts ip address with scheme and port", () => {
+      let { textContent, href } = getLink('http://192.168.0.1:8080');
+      assert.ok(textContent === 'http://192.168.0.1:8080');
+      assert.ok(href === 'http://192.168.0.1:8080/');
     });
 
-    it("", () => {
-      sampleComponent.setProps({text: '192.168.0.1:443 bar'});
-      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
-      assert.ok(link.getDOMNode().textContent === '192.168.0.1:443');
-      assert.ok(link.getDOMNode().href === 'http://192.168.0.1:443/');
+    it("converts ip address without scheme but port", () => {
+      let { textContent, href } = getLink('192.168.0.1:443');
+      assert.ok(textContent === '192.168.0.1:443');
+      assert.ok(href === 'http://192.168.0.1:443/');
     });
 
+    it("converts url with parentheses", () => {
+      let { textContent, href } = getLink('http://en.wikipedia.org/wiki/Ostrich_(disambiguation)');
+      assert.ok(textContent === 'http://en.wikipedia.org/wiki/Ostrich_(disambiguation)');
+      assert.ok(href === 'http://en.wikipedia.org/wiki/Ostrich_(disambiguation)');
+    });
+  });
+
+  context('other cases', () => {
     it("converts url if 2 urls are given", () => {
-      sampleComponent.setProps({text: 'example.org bar example.com'});
-      let links = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
-      assert.ok(links.length === 2);
-    });
-
-    it("converts url if url has parentheses", () => {
-      sampleComponent.setProps({text: 'example.org bar example.com'});
+      sampleComponent.setProps({text: 'example.org bar example.com baz'});
       let links = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
       assert.ok(links.length === 2);
     });
