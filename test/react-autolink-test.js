@@ -127,6 +127,12 @@ describe("ReactAutolinkMixin", () => {
       assert.ok(textContent === '192.168.0.1:443');
       assert.ok(href === 'http://192.168.0.1:443/');
     });
+
+    it("converts url with parentheses", () => {
+      let { textContent, href } = getLink('http://en.wikipedia.org/wiki/Ostrich_(disambiguation)');
+      assert.ok(textContent === 'http://en.wikipedia.org/wiki/Ostrich_(disambiguation)');
+      assert.ok(href === 'http://en.wikipedia.org/wiki/Ostrich_(disambiguation)');
+    });
   });
 
   context('other cases', () => {
