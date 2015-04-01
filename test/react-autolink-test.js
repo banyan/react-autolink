@@ -83,6 +83,25 @@ describe("ReactAutolinkMixin", () => {
       assert.ok(link.length === 0);
     });
 
+    it("does not convert if domain is invalid", () => {
+      sampleComponent.setProps({text: 'http://a..foo'});
+      let link = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
+      assert.ok(link.length === 0);
+    });
+
+    it("does not convert if domain is invalid without scheme", () => {
+      sampleComponent.setProps({text: 'a..foo'});
+      let link = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
+      assert.ok(link.length === 0);
+    });
+
+    it("converts url if sub-domain is less than 3 charcters", () => {
+      sampleComponent.setProps({text: 'http://en.wikipedia.org/wiki/Foobar'});
+      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
+      assert.ok(link.getDOMNode().textContent === 'http://en.wikipedia.org/wiki/Foobar');
+      assert.ok(link.getDOMNode().href === 'http://en.wikipedia.org/wiki/Foobar');
+    });
+
     it("converts url without scheme", () => {
       sampleComponent.setProps({text: 'example.org bar'});
       let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
