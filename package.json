@@ -15,7 +15,8 @@
   },
   "keywords": [
     "react",
-    "autolink"
+    "autolink",
+    "react-component"
   ],
   "author": "Kohei Hasegawa",
   "license": "MIT",
