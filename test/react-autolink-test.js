@@ -92,6 +92,10 @@ describe("ReactAutolinkMixin", () => {
       assertNoLink('a..foo');
     });
 
+    it("does not convert if domain is invalid without scheme", () => {
+      assertNoLink('a. foo');
+    });
+
     it("converts url if sub-domain is less than 3 charcters", () => {
       let { textContent, href } = getLink('http://en.wikipedia.org/wiki/Foobar');
       assert.ok(textContent === 'http://en.wikipedia.org/wiki/Foobar');
