@@ -133,6 +133,12 @@ describe("ReactAutolinkMixin", () => {
       assert.ok(textContent === 'http://en.wikipedia.org/wiki/Ostrich_(disambiguation)');
       assert.ok(href === 'http://en.wikipedia.org/wiki/Ostrich_(disambiguation)');
     });
+
+    it("converts url with dash", () => {
+      let { textContent, href } = getLink('http://example.org/foo-bar');
+      assert.ok(textContent === 'http://example.org/foo-bar');
+      assert.ok(href === 'http://example.org/foo-bar');
+    });
   });
 
   context('other cases', () => {
