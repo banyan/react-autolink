@@ -38,6 +38,10 @@ let App = React.createClass({
 });
 ```
 
+## Tips
+
+In tandem with [react-emoji](https://github.com/banyan/react-emoji)
+
 ## Development
 
 ### Dependency
