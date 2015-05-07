@@ -10,7 +10,7 @@ let ReactAutolink = () => {
 
   return {
     autolink(text, options = {}) {
-      if (!text) return null;
+      if (!text) return [];
 
       return text.split(delimiter).map(word => {
         let match = word.match(delimiter);
