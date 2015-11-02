@@ -1,6 +1,7 @@
-import React  from "react/addons";
-import assert from 'power-assert';
-const {TestUtils} = React.addons;
+import React     from "react";
+import ReactDOM  from "react-dom";
+import assert    from 'power-assert';
+import TestUtils from 'react-addons-test-utils';
 
 import ReactAutolinkMixin from "../src/react-autolink";
 
