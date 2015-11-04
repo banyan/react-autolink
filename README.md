@@ -32,6 +32,7 @@ let App = React.createClass({
       <div>
         <span>{ this.autolink(this.props.text) }</span>
         <span>{ this.autolink(this.props.text, { target: "_blank", rel: "nofollow" }) }</span>
+        <span>{ ReactAutolink.autolink(this.props.text) }</span> // or can be used no mixin way
       </div>
     );
   }
