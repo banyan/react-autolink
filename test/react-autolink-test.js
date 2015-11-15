@@ -26,24 +26,27 @@ let SampleComponent = React.createClass({
 });
 
 describe("ReactAutolinkMixin", () => {
-  let sampleComponent = TestUtils.renderIntoDocument(<SampleComponent />);
+  let div, sampleComponent, component;
+  component = <SampleComponent />;
+  div = document.createElement('div');
+  sampleComponent = ReactDOM.render(component, div);
 
   let getLink = (text, options) => {
-    sampleComponent.setProps({text: text, options: options});
-    return TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a").getDOMNode();
+    ReactDOM.render(<SampleComponent text={text} options={options} />, div);
+    return ReactDOM.findDOMNode(TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a"));
   };
 
   let assertNoLink = (text, options) => {
-    sampleComponent.setProps({text: text, options: options});
+    ReactDOM.render(<SampleComponent text={text} options={options} />, div);
     let link = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
     assert.ok(link.length === 0);
   };
 
   it("render", () => {
-    sampleComponent.setProps({text: 'foo http://example.org'});
-    let span = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "span");
+    ReactDOM.render(<SampleComponent text='foo http://example.org' />, div);
+    let span = ReactDOM.findDOMNode(TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "span"));
     assert.equal(
-      span.getDOMNode().innerHTML,
+      span.innerHTML,
       '<span data-reactid=\".0.0.0\">foo </span><a href=\"http://example.org\" data-reactid=\".0.0.1\">http://example.org</a><span data-reactid=\".0.0.2\"></span>'
     );
   });
@@ -148,16 +151,16 @@ describe("ReactAutolinkMixin", () => {
 
   context('other cases', () => {
     it("converts url if 2 urls are given", () => {
-      sampleComponent.setProps({text: 'example.org bar example.com baz'});
+      ReactDOM.render(<SampleComponent text='example.org bar example.com baz' />, div);
       let links = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
       assert.ok(links.length === 2);
     });
 
     it("has attributes when options are given", () => {
-      sampleComponent.setProps({text: 'example.org', options: { target: "_blank", rel: "nofollow" }});
-      let link = TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a");
-      assert.ok(link.getDOMNode().target === '_blank');
-      assert.ok(link.getDOMNode().rel === 'nofollow');
+      ReactDOM.render(<SampleComponent text='example.org' options={{target: "_blank", rel: "nofollow"}} />, div);
+      let link = ReactDOM.findDOMNode(TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "a"));
+      assert.ok(link.target === '_blank');
+      assert.ok(link.rel === 'nofollow');
     });
   });
 });
