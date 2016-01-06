@@ -12,7 +12,7 @@ let ReactAutolink = () => {
     autolink(text, options = {}) {
       if (!text) return [];
 
-      return text.split(delimiter).map(word => {
+      return text.split(delimiter).map((word, index) => {
         let match = word.match(delimiter);
         if (match) {
           let url = match[0];
@@ -25,11 +25,15 @@ let ReactAutolink = () => {
 
           return React.createElement(
             'a',
-            assign({href: strStartsWith(url, 'http') ? url : `http://${url}`}, options),
+            assign({href: strStartsWith(url, 'http') ? url : `http://${url}`, key: index}, options),
             url
           );
         } else {
-          return word;
+          return React.createElement(
+            'span',
+            { key: index },
+            word
+          );
         }
       });
     }

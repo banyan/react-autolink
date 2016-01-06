@@ -44,10 +44,10 @@ describe("ReactAutolinkMixin", () => {
 
   it("render", () => {
     ReactDOM.render(<SampleComponent text='foo http://example.org' />, div);
-    let span = ReactDOM.findDOMNode(TestUtils.findRenderedDOMComponentWithTag(sampleComponent, "span"));
+    let span = ReactDOM.findDOMNode(TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "span")[0]);
     assert.equal(
       span.innerHTML,
-      '<span data-reactid=\".0.0.0\">foo </span><a href=\"http://example.org\" data-reactid=\".0.0.1\">http://example.org</a><span data-reactid=\".0.0.2\"></span>'
+      '<span data-reactid=\".0.0.$0\">foo </span><a href=\"http://example.org\" data-reactid=\".0.0.$1\">http://example.org</a><span data-reactid=\".0.0.$2\"></span>'
     );
   });
 
@@ -154,6 +154,14 @@ describe("ReactAutolinkMixin", () => {
       ReactDOM.render(<SampleComponent text='example.org bar example.com baz' />, div);
       let links = TestUtils.scryRenderedDOMComponentsWithTag(sampleComponent, "a");
       assert.ok(links.length === 2);
+    });
+
+    it("provides keys to links", () => {
+      const shallowRenderer = TestUtils.createRenderer();
+      shallowRenderer.render(<SampleComponent text='example.org bar example.com baz' />);
+      component = shallowRenderer.getRenderOutput();
+
+      assert(component.props.children.props.children.every((child) => child.key))
     });
 
     it("has attributes when options are given", () => {
