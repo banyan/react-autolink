@@ -162,5 +162,17 @@ describe("ReactAutolinkMixin", () => {
       assert.ok(link.target === '_blank');
       assert.ok(link.rel === 'nofollow');
     });
+
+    it("detects urls that are part of the path to other urls", () => {
+      let { textContent, href } = getLink('https://www.example.com/other/site/http://www.example.org/foo');
+      assert.ok(textContent === 'https://www.example.com/other/site/http://www.example.org/foo');
+      assert.ok(href === 'https://www.example.com/other/site/http://www.example.org/foo');
+    });
+
+    it("detects urls that are a get parameter to other urls", () => {
+      let { textContent, href } = getLink('https://www.example.com/other/site?url=http://www.example.org/foo');
+      assert.ok(textContent === 'https://www.example.com/other/site?url=http://www.example.org/foo');
+      assert.ok(href === 'https://www.example.com/other/site?url=http://www.example.org/foo');
+    });
   });
 });
